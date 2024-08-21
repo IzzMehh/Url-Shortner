@@ -1,26 +1,18 @@
-const express = require("express")
-const mongooes = require("mongoose");
-const UrlModel = require("./Models/Url.model");
+import { configDotenv } from "dotenv";
+import app from "./app.js";
+import connectDB from "./db/connect.js";
 
-require('dotenv').config();
+configDotenv()
 
-const app = express()
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT
 
-
-mongooes.connect(`${process.env.MONGODB_URI}`)
-.then(()=>console.log("Connected MongoDB Successfully"))
-.catch((e)=>console.log("Error while connecting DB:",e.message))
-
-
-app.use(express.urlencoded({extended:false}))
-
-
-app.get("/try",(req,res)=>{
-    res.send(req.ip)
-})
-
-app.listen(PORT,()=>{
-    console.log(`Connected to PORT ${PORT}`)
-})
-
+connectDB()
+    .then(() => {
+        console.log("Connected MongoDB Successfully")
+        app.listen(PORT, () => {
+            console.log(`Connected with PORT : ${PORT}`)
+        })
+    })
+    .catch((e)=>{
+        console.log("Error while connecting MongoDB: ", e.message)
+    })

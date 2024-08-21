@@ -7,7 +7,7 @@ function Home() {
   const [errorMessage, setErrorMessage] = React.useState("")
   const [originalUrl, setOriginalUrl] = React.useState("")
   const [customUrl,setCustomUrl] = React.useState("")
-  const [Loading,setLoading] = React.useState(true)
+  const [Loading,setLoading] = React.useState(false)
   
   const urlPattern = "/https?:\/\/(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+(\/[a-zA-Z0-9-._~:\/?#[\]@!$&'()*+,;%=]*)?/";
 
