@@ -3,10 +3,10 @@ import { createUrl,getUrl } from "../controllers/url.controller.js"
 
 const urlRouter = Router()
 
-urlRouter.route("/api/url")
+urlRouter.route("/")
 .post(createUrl)
 
-urlRouter.route("/api/url/:customUrl")
+urlRouter.route("/:customUrl")
 .get(getUrl)
 
 export default urlRouter

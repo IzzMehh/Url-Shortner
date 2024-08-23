@@ -11,7 +11,7 @@ app.use(express.urlencoded({extended:true}))
 
 // Routes Imports
 
-app.use("/",urlRouter)
+app.use("/api/url/",urlRouter)
 
 
 // Routes
