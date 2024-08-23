@@ -4,11 +4,15 @@ import { Visitor } from "../Models/visitor.model.js";
 const createUrl = async (req, res) => {
     try {
         const { originalUrl, customUrl } = req.body
+        console.log(originalUrl,customUrl)
 
         const customUrlExists = await Url.findOne({ customUrl })
 
         if (customUrlExists) {
-            return res.status(400).send("Custom Url Already Exists!")
+            return res.status(400).json({
+                errorCode:400,
+                message:"Custom Url Already Exists!",
+            })
         }
 
         const createdUrl = await Url.create({

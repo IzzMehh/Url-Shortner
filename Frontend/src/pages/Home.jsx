@@ -1,6 +1,7 @@
 import React from 'react'
 import { InputBox, Button,Loader } from '../components/index.js'
 import Error from '../components/Toasts/Error.jsx'
+import { urlHandler } from '../backendConfig/urlHandler.js'
 
 function Home() {
   const [error, setError] = React.useState(false)
@@ -8,13 +9,22 @@ function Home() {
   const [originalUrl, setOriginalUrl] = React.useState("")
   const [customUrl,setCustomUrl] = React.useState("")
   const [Loading,setLoading] = React.useState(false)
-  
-  const urlPattern = "/https?:\/\/(www\.)?[a-zA-Z0-9-]+(\.[a-zA-Z]{2,})+(\/[a-zA-Z0-9-._~:\/?#[\]@!$&'()*+,;%=]*)?/";
 
-  const handleOriginalUrl = (e) =>{
-    let validate = e.target.value.replace(urlPattern,"")
-    setOriginalUrl(validate)
+  const handleOriginalUrl = (e) => {
+    setOriginalUrl(e.target.value)
   }
+
+  const handleCustomUrl = (e) => {
+    setCustomUrl(e.target.value)
+  }
+
+  const createCustomUrl = async() =>{
+    setLoading(true)
+    const createdUrl = await urlHandler.createShortenUrl(originalUrl,customUrl)
+    console.log(createdUrl)
+    setLoading(false)
+  }
+  
 
   return (
     <div className='font-text-font'>
@@ -35,10 +45,10 @@ function Home() {
             <div className='pb-2'>
               Custom Url 
             </div>
-            <InputBox placeholder="Enter a custom URL" style="w-[90%]" value={customUrl} />
+            <InputBox fn={handleCustomUrl} placeholder="Enter a custom URL" style="w-[90%]" value={customUrl} />
           </div>
         </div>
-        <Button text={Loading ? <Loader/> : "Shorten URL"} style="w-full text-center mt-5"/>
+        <Button fn={createCustomUrl} text={Loading ? <Loader/> : "Shorten URL"} style="w-full text-center mt-5"/>
       </div>
     </div>
   )
