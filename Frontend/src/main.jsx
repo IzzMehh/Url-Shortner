@@ -4,7 +4,7 @@ import App from './App.jsx'
 import './index.css'
 import { Route, RouterProvider, createRoutesFromElements } from 'react-router-dom'
 import { createBrowserRouter } from 'react-router-dom'
-import { Home, Analytics, Redirect } from './pages/index.js'
+import { Home, Analytics, Redirect,About } from './pages/index.js'
 
 
 const router = createBrowserRouter(
@@ -13,6 +13,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<App />}>
         <Route path='/home' element={<Home />} />
         <Route path="/analytics" element={<Analytics />} />
+        <Route path="/about" element={<About/>} />
         <Route path="/analytics/:customUrlParams" element={<Analytics />} />
       </Route>
       <Route path='/:customUrl' element={<Redirect />} />

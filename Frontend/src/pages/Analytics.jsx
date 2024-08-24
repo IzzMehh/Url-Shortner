@@ -1,33 +1,75 @@
 import React from 'react'
-import { InputBox, Button,Card} from '../components/index.js'
+import { InputBox, Button, Card, Error, Loader} from '../components/index.js'
 import { useParams } from 'react-router'
+import { urlHandler } from '../backendConfig/urlHandler.js'
+
 
 function Analytics() {
 
   const { customUrlParams } = useParams()
+  const isParamsGiven = customUrlParams ? customUrlParams : ""
 
-  const customUrl = customUrlParams || null
+  const [data,setData] = React.useState(false)
+  const [customUrl, setCustomUrl] = React.useState(isParamsGiven)
 
-  const isParamsGiven = customUrl ? true : false  
+  const [error, setError] = React.useState(false)
+  const [errorMessage, setErrorMessage] = React.useState("")
 
-  console.log(isParamsGiven)
+  const [loading,setLoading] = React.useState(false)
+
+  const fetchData = async() => {
+   try {
+    setLoading(true)
+     const data = await urlHandler.getUrl(customUrl)
+     setData(data)
+   } catch (error) {
+    setErrorMessage(error.message)
+    setError(true)
+   }
+   finally{
+    setLoading(false)
+   }
+  }
+
+  const handleCustomUrl = (e) => {
+    setCustomUrl(e.target.value)
+  }
+
+  const handleButton = () =>{
+    if(customUrl){
+    fetchData()
+    }else{
+      setErrorMessage("Enter the custom Url!!")
+      setError(true)
+    }
+  }
+
 
   React.useEffect(()=>{
     if(isParamsGiven){
-      const data = fetch(`https://localhost:4000/api/url/${customUrl}`)
+      fetchData()
     }
-  })
+  },[])
 
   return (
     <>
+    {error ? <Error message={errorMessage} setError={setError}/> : null}
     <div className='w-[90%] sm:w-[60%] m-auto text-center'>
-    <InputBox placeholder={"Enter your URL"} style={"w-full mt-5"}/>
-    <Button text={"Find"} style={"mt-5"}/>
+    <InputBox fn={handleCustomUrl} value={customUrl} placeholder={"Enter your URL"} style={"w-full mt-5"}/>
+    <Button fn={handleButton} text={loading ? <Loader/> : "Find"} style={"mt-5"}/>
     </div>
 
     <div>
-      <Card/>
-      <Card/>
+      {data 
+      ? <>
+      
+      <Card title={data.customUrl} description={`Original Url: ${data.originalUrl}`} createdAt={data.createdAt}/>   
+      <div className='md:flex m-auto'>
+      <Card title={"Total Visitors"} description={data.totalVisitors} createdAt={data.createdAt}/>
+      <Card title={"New Visitors"} description={data.newVisitors} createdAt={data.createdAt}/>
+      </div>
+      </>
+    : null}
     </div>
 
 

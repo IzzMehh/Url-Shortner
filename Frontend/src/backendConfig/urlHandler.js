@@ -5,38 +5,42 @@ class UrlHandler {
 
     async createShortenUrl(originalUrl, customUrl) {
         try {
-            console.log(originalUrl,customUrl)
             const response = await fetch("http://localhost:4000/api/url", {
                 method: "POST",
                 headers:{
                     "Content-Type":"application/json"
-                },
+                },  
                 body:JSON.stringify({
                     originalUrl:originalUrl,
                     customUrl:customUrl,
                 })
             })
 
-            if(!response){
-                throw new Error("Network Error")
+            if(!response.ok){
+                const errorMessage = await response.text()
+                throw new Error(errorMessage)
             }
 
             const data = await response.json()
             return data
         } catch (error) {
-            console.log(error)
-            return null
+            throw error
         }
     }
 
     async getUrl(customUrl){
         try {
             const response = await fetch(`http://localhost:4000/api/url/${customUrl}`)
+            
+            if(!response.ok){
+                const errorMessage = await response.text()
+                throw new Error(errorMessage)
+            }
+
             const data = await response.json()
             return data
         } catch (error) {
-            console.log(error.message)
-            return null
+            throw error
         }
     }
 }
