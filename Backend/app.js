@@ -5,7 +5,7 @@ import cors from "cors"
 const app = express()
 
 var corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: 'https://url-shortner-six-sand.vercel.app',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
 
