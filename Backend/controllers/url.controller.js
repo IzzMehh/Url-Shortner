@@ -4,8 +4,8 @@ import { Visitor } from "../Models/visitor.model.js";
 const createUrl = async (req, res) => {
     try {
         const { originalUrl, customUrl } = req.body
-        
-        if(!originalUrl || !customUrl){
+
+        if (!originalUrl || !customUrl) {
             return res.status(400).send("Original Url and Custom Url are required!")
         }
 
@@ -30,7 +30,7 @@ const createUrl = async (req, res) => {
 const getUrl = async (req, res) => {
     try {
 
-        const {customUrl} = req.params
+        const { customUrl } = req.params
 
         const originalUrl = await Url.findOne({ customUrl })
 
@@ -38,33 +38,41 @@ const getUrl = async (req, res) => {
             return res.status(404).send(`Cannot find the custom url: ${customUrl}`);
         }
 
+        const forwardedIps = req.headers['x-forwarded-for'];
+        let clientIp
+
+        if (forwardedIps) {
+            clientIp = forwardedIps.split(',')[0].trim();
+        } else {
+            clientIp = req.connection.remoteAddress;
+        }
+
+
         await Visitor.create({
-            ip: req.ip,
+            ip: clientIp,
             url: originalUrl._id
         })
-        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-        console.log(ip)
 
         const count = await Visitor.countDocuments({ url: originalUrl._id });
         const visitors = await Visitor.find({ url: originalUrl._id });
 
         const newVisitorArray = []
 
-        visitors.map((documet)=>{
-            if(!newVisitorArray.includes(documet.ip)){
+        visitors.map((documet) => {
+            if (!newVisitorArray.includes(documet.ip)) {
                 newVisitorArray.push(documet.ip)
             }
         })
 
         const updatedOriginalUrl = await Url.findOneAndUpdate({
             _id: originalUrl._id,
-        },{
+        }, {
             $set: {
-                totalVisitors:count,
-                newVisitors:newVisitorArray.length,
+                totalVisitors: count,
+                newVisitors: newVisitorArray.length,
             }
-        },{
-            new:true,
+        }, {
+            new: true,
         }
         )
 
