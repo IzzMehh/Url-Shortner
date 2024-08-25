@@ -42,6 +42,8 @@ const getUrl = async (req, res) => {
             ip: req.ip,
             url: originalUrl._id
         })
+        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        console.log(ip)
 
         const count = await Visitor.countDocuments({ url: originalUrl._id });
         const visitors = await Visitor.find({ url: originalUrl._id });
