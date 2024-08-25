@@ -30,7 +30,7 @@ class UrlHandler {
 
     async getUrl(customUrl){
         try {
-            const response = await fetch(`https://url-shortner-6onp.onrender.com/api/url${customUrl}`)
+            const response = await fetch(`https://url-shortner-6onp.onrender.com/api/url/${customUrl}`)
             
             if(!response.ok){
                 const errorMessage = await response.text()
