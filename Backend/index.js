@@ -11,6 +11,7 @@ connectDB()
         console.log("Connected MongoDB Successfully")
         app.listen(PORT, () => {
             console.log(`Connected with PORT : ${PORT}`)
+            console.log('u')
         })
     })
     .catch((e)=>{
