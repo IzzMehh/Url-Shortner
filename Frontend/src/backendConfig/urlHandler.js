@@ -5,7 +5,7 @@ class UrlHandler {
 
     async createShortenUrl(originalUrl, customUrl) {
         try {
-            const response = await fetch("http://localhost:4000/api/url", {
+            const response = await fetch("https://url-shortner-6onp.onrender.com/api/url", {
                 method: "POST",
                 headers:{
                     "Content-Type":"application/json"
@@ -30,7 +30,7 @@ class UrlHandler {
 
     async getUrl(customUrl){
         try {
-            const response = await fetch(`http://localhost:4000/api/url/${customUrl}`)
+            const response = await fetch(`https://url-shortner-6onp.onrender.com/${customUrl}`)
             
             if(!response.ok){
                 const errorMessage = await response.text()
