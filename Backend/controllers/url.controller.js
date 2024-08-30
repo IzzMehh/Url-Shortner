@@ -9,6 +9,13 @@ const createUrl = async (req, res) => {
             return res.status(400).send("Original Url and Custom Url are required!")
         }
 
+        const isValid = new URL(originalUrl)
+
+        if(!isValid){
+            return res.status(400).send("The Original Url is INVALID")
+        }
+        
+
         const customUrlExists = await Url.findOne({ customUrl })
 
         if (customUrlExists) {

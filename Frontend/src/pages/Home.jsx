@@ -18,7 +18,9 @@ function Home() {
   }
 
   const handleCustomUrl = (e) => {
-    setCustomUrl(e.target.value)
+    let input = e.target.value
+    let value = input.replace(/ /g, '-');
+    setCustomUrl(value)
   }
 
   const createCustomUrl = async () => {
