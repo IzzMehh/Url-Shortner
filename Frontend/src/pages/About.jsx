@@ -20,8 +20,7 @@ function About() {
                             <div className="bg-card p-6 rounded-md shadow-sm">
                                 <h3 className="text-xl font-semibold">URL Analytics</h3>
                                 <p className="text-muted-foreground">
-                                    Dive into real-world examples of successful web projects, learn from the experiences of industry
-                                    experts, and get inspired.
+                                Gain valuable insights into your link unique visitors.
                                 </p>
                             </div>
                             <div className="bg-card p-6 rounded-md shadow-sm">
