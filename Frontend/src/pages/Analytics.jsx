@@ -2,6 +2,7 @@ import React from 'react'
 import { InputBox, Button, Card, Error, Loader} from '../components/index.js'
 import { useParams } from 'react-router'
 import { urlHandler } from '../backendConfig/urlHandler.js'
+import moment from "moment"
 
 
 function Analytics() {
@@ -16,6 +17,8 @@ function Analytics() {
   const [errorMessage, setErrorMessage] = React.useState("")
 
   const [loading,setLoading] = React.useState(false)
+
+  const currentTime = moment().format('h:m:s A')
 
   const fetchData = async() => {
    try {
@@ -63,10 +66,10 @@ function Analytics() {
       {data 
       ? <>
       
-      <Card title={data.customUrl} description={`Original Url: ${data.originalUrl}`} createdAt={data.createdAt}/>   
+      <Card title={data.customUrl} description={`Original Url: ${data.originalUrl}`} currentTime={currentTime}/> 
       <div className='md:flex m-auto'>
-      <Card title={"Total Visitors"} description={data.totalVisitors} createdAt={data.createdAt}/>
-      <Card title={"New Visitors"} description={data.newVisitors} createdAt={data.createdAt}/>
+      <Card title={"Total Visitors"} description={data.totalVisitors} currentTime={currentTime}/>
+      <Card title={"New Visitors"} description={data.newVisitors} currentTime={currentTime}/>
       </div>
       </>
     : null}
