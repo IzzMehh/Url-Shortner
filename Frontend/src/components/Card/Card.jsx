@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Card({title,description,createdAt}) {
+function Card({title,description,currentTime}) {
   return (
     <div className="m-auto bg-white rounded-lg shadow-lg overflow-hidden max-w-lg w-full">
         <div className="p-6">
@@ -9,7 +9,7 @@ function Card({title,description,createdAt}) {
                 {description}
             </p>
             <div className="flex justify-between items-center">
-                <span className="text-gray-600">{`${createdAt}`}</span>
+                <span className="text-gray-600">{`${currentTime}`}</span>
             </div>
         </div>
     </div>
